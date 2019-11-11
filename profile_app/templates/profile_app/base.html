@@ -1,0 +1,201 @@
+{% load static %}
+{% block header %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Заявки в работе</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+        <link href="{% static 'second/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
+        <link href="{% static 'second/css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'second/css/style.css' %}" rel="stylesheet">
+    </head>
+{% endblock %}
+{% block content %}
+    <body>
+    {% block head %}
+        <div id="preloader">
+            <div class="loader">
+                <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                            stroke-miterlimit="10"></circle>
+                </svg>
+            </div>
+        </div>
+        <!--*******************
+            Preloader end
+        ********************-->
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="container-fluid mt-3">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="header">
+                        <div class="header-content clearfix">
+                            <div class="header-right">
+                                <ul class="clearfix">
+                                    <li class="icons dropdown">
+                                        <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                                            <span class="activity active"></span>
+                                            <img src="{% static 'second/images/user/1.png' %}" height="40" width="40"
+                                                 alt="">
+                                        </div>
+                                        <div class="drop-down dropdown-profile   dropdown-menu">
+                                            <div class="dropdown-content-body">
+                                                <ul>
+                                                    <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Выход</span></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% include 'profile_app/includes/menu_bids.html' %}
+    {% include 'profile_app/includes/modal_window.html' %}
+    <div class="container-fluid ">
+    <div class="row mt-2 justify-content-center">
+    <div class="col-lg-12 ">
+    <div class="card">
+    <div class="card-body">
+    <div class="table-responsive">
+        <h4 class="card-title">{{ title }}</h4>
+        <table class="table header-border">
+            <thead>
+            <tr>
+                <th>ID заявки</th>
+                <th>Название</th>
+                <th>Создана</th>
+                <th>Прогресс</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if objects.object_list.count %}
+                {% for object in objects %}
+                    <tr>
+                        <td class="td_ajax"><a class="act_ajax" data-toggle="modal" data-target=".bd-example-modal-lg" href="#">{{ object.id_vacancy_hh }}</a>
+                        <a class="url_ajax" href="{% url 'edit' object.pk %}">
+                        </a>
+                        </td>
+                        <td>{{ object.name_vacancy }}</td>
+                        <td><span class="text-muted">{{ object.created }}</span>
+                        </td>
+                        <td>???????????</td>
+                        {% if object.status == 'AR' %}
+                            <td><span class="label gradient-6-text rounded"> В архиве </span></td>
+                        {% elif object.status == 'ON' %}
+                            <td><span class="label gradient-1 rounded"> В работе </span></td>
+                        {% else %}
+                            <td><span class="label gradient-2 rounded"> Приостановлена </span></td>
+                        {% endif %}
+                        <td>
+                            {% if object.move %}
+                                <div class="stop">
+                                    <a class="url_st" href="{% url 'stop_work' object.pk %}">
+                                    </a>
+                                    <a href="#">
+                                        <i class="icon-control-pause menu-icon sweet-success"></i>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="play">
+                                    <a class="url_pl" href="{% url 'play_work' object.pk %}">
+                                    </a>
+                                    <a href="#">
+                                        <i class="icon-control-play menu-icon sweet-success"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>Список заявок пуст</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block paginate %}
+    <div class="bootstrap-pagination">
+        <nav>
+            <ul class="pagination">
+                {% if objects.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            {% if in_work %}
+                                             href="{% url 'bids_list_work' user.pk objects.previous_page_number %}"
+                            {% else %}
+                                             href="{% url 'bids_list_archive' user.pk objects.previous_page_number %}"
+                            {% endif %}
+                                             aria-label="Previous"><span aria-hidden="true">«</span>
+                        <span class="sr-only">Previous</span></a>
+                    </li>
+                {% endif %}
+                {% for page in objects.paginator.page_range %}
+                    <li class="page-item"><a class="page-link"
+                            {% if in_work %}
+                                             href="{% url 'bids_list_work' user.pk page %}">{{ page }}
+                            {% else %}
+                                href="{% url 'bids_list_archive' user.pk page %}">{{ page }}
+                            {% endif %}
+                    </a>
+                    </li>
+                {% endfor %}
+                {% if objects.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            {% if in_work %}
+                                             href="{% url 'bids_list_work' user.pk objects.next_page_number %}"
+                            {% else %}
+                                             href="{% url 'bids_list_archive' user.pk objects.next_page_number %}"
+                            {% endif %}
+                                             aria-label="Next"><span aria-hidden="true">»</span>
+                        <span
+                                class="sr-only">Next</span></a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </body>
+    {# {% include 'profile_app/includes/modal_window.html' %}#}
+{% endblock %}
+{% block footer %}
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'second/plugins/common/common.min.js' %}"></script>
+    <script src="{% static 'second/js/custom.min.js' %}"></script>
+    <script src="{% static 'second/js/settings.js' %}"></script>
+    <script src="{% static 'second/js/gleek.js' %}"></script>
+    <script src="{% static 'second/js/ajax.js' %}"></script>
+    <script src="{% static 'second/js/styleSwitcher.js' %}"></script>
+    <script src="{% static 'second/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
+    <script src="{% static 'second/plugins/sweetalert/js/sweetalert.init.js' %}"></script>
+    <script src="{% static 'second/plugins/validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'second/plugins/validation/jquery.validate-init.js' %}"></script>
+
+{% endblock %}
+</html>

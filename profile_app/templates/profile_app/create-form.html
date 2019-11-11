@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Создание заявки</title>
+    {#    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">#}
+    <link href="{% static 'second/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
+{#    <link href="{% static 'second/plugins/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet">#}
+    <link href="{% static 'second/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+<!--**********************************
+    Header start
+***********************************-->
+<div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="header">
+                <div class="header-content clearfix">
+                    <div class="header-right">
+                        <ul class="clearfix">
+                            <li class="icons dropdown">
+                                <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                                    <span class="activity active"></span>
+                                    <img src="{% static 'second/images/user/1.png' %}" height="40" width="40" alt="">
+                                </div>
+                                <div class="drop-down dropdown-profile   dropdown-menu">
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Выход</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body start
+***********************************-->
+<div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Создание нового подбора для Head Hunter</h4>
+                    <p>Подбор с использованием базы данных Head Hunter быстро дает стабильно большой поток
+                        кандидатов.
+                        Для того,
+                        чтобы правильно заполнить форму подбора, посмотрите видео-инструкцию:
+                        http//________</p>
+                    <div class="bootstrap-modal">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#basicModal">
+                            Посмотреть инструкцию
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="basicModal" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span>×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">Modal body text goes here.</div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                            Ок
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'profile_app/includes/menu_bids.html' %}
+<div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-validation">
+                        <form class="form-valide" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group row val">
+                                {{ form.name_vacancy.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-username"> Название вакансии
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.name_vacancy }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.login_hh.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-email"> Логин на HH <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.login_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.password_hh.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-password"> Пароль на HH
+                                    <span
+                                            class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.password_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.url_selected_hh.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-confirm-password"> URL
+                                    выборки
+                                    кандидатов <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.url_selected_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.id_vacancy_hh.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-suggestions"> ID вакансии
+                                    <span
+                                            class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.id_vacancy_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.short_url_hh.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-currency"> Короткая ссылка
+                                    на
+                                    вакансию HH <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.short_url_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.text_to_sms.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-website"> Текст приглашения
+                                    в
+                                    SMS <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.text_to_sms }}
+                                </div>
+                            </div>
+                            <div class="form-group row val">
+                                {{ form.text_to_email.errors }}
+                                <label class="col-lg-4 col-form-label" for="val-phoneus"> Текст приглашения
+                                    в
+                                    письме <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.text_to_email }}
+                                </div>
+                            </div>
+                            {#                                        <div class="form-group row">#}
+                            {#                                            <label class="col-lg-4 col-form-label"><a href="#">Terms &amp; Conditions</a>  <span class="text-danger">*</span>#}
+                            {#                                            </label>#}
+                            {#                                            <div class="col-lg-8">#}
+                            {#                                                <label class="css-control css-control-primary css-checkbox" for="val-terms">#}
+                            {#                                                    <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1"> <span class="css-control-indicator"></span> I agree to the terms</label>#}
+                            {#                                            </div>#}
+                            {#                                        </div>#}
+                            <div class="form-group row">
+                            </div>
+                        </form>
+                        <div class="col-lg-8 ml-auto">
+                            <button class="btn btn-success btn sweet-success">
+                                Запустить подбор
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="copyright">
+        <p>Copyright &copy; Designed & Developed by <a
+                href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
+        </p>
+    </div>
+</div>
+<script src="{% static 'second/plugins/common/common.min.js' %}"></script>
+<script src="{% static 'second/js/custom.min.js' %}"></script>
+<script src="{% static 'second/js/settings.js' %}"></script>
+<script src="{% static 'second/js/gleek.js' %}"></script>
+<script src="{% static 'second/js/styleSwitcher.js' %}"></script>
+{#<script src="{% static 'second/plugins/sweetalert2/dist/sweetalert2.min.js' %}"></script>#}
+<script src="{% static 'second/plugins/validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'second/plugins/validation/jquery.validate-init.js' %}"></script>
+<script src="{% static 'second/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
+<script src="{% static 'second/plugins/sweetalert/js/sweetalert1.init.js' %}"></script>
+
+</body>
+
+</html>
