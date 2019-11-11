@@ -16,7 +16,6 @@ class SignUpForm(UserCreationForm):
         self.fields['username'].widget.attrs.update({'placeholder': 'Введите email.'})
         self.fields['password1'].widget.attrs.update({'placeholder': 'Введите пароль.'})
         self.fields['telephone_num'].widget.attrs.update({'placeholder': 'Введите номер телефона'})
-        self.fields['telephone_num'].widget.attrs.update({'pattern': r'+7\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}'})
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control form__input'
 

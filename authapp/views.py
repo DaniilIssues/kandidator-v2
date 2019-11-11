@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse, reverse_lazy
 from authapp.forms import LoginForm
 from authapp.forms import SignUpForm
+from kandidator_v2_0 import settings
 
 
 def register(request):
@@ -27,10 +28,10 @@ def register(request):
                 reverse_lazy('admin')
             auth.login(request, user)
             send_mail(
-                'Subject here',
+                '{}'.format(title),
                 'Пользователь с почтой {} и номером {} зарегистрировался'.format(username, request.POST['telephone_num']),
-                'from@example.com',
-                ['to@example.com'],
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
                 fail_silently=False,
             )
             return HttpResponseRedirect(reverse('create', kwargs={'pk': request.user.pk}))

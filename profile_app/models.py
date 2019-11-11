@@ -1,17 +1,16 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.utils.timezone import now
-
 from authapp.models import MyUser
 
 
 class Account(models.Model):
     in_work = 'ON'
     archive = 'AR'
-    stoped = 'ST'
+    stopped = 'ST'
     STATUS_CHOICES = {
         (in_work, 'В работе'),
         (archive, 'В архиве'),
-        (stoped, 'Приостановлена'),
+        (stopped, 'Приостановлена'),
 
     }
     name_vacancy = models.CharField(max_length=150)
@@ -26,34 +25,5 @@ class Account(models.Model):
     user = models.ForeignKey(MyUser, default=None, on_delete=models.CASCADE, null=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=120, default=in_work)
     move = models.BooleanField(default=True)
+    progress = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)], default=1)
 
-
-class BidModel(models.Model):
-    ON_LOAD = 'ol'
-    IN_WORK = 'iw'
-    STOPED = 'st'
-    THE_END = 'en'
-    STATUS_CHOICES = [
-        (ON_LOAD, 'В обработке'),
-        (IN_WORK, 'В работе'),
-        (STOPED, 'Остановлен'),
-        (THE_END, 'Завершен'),
-    ]
-    date_create = models.DateTimeField(default=now)
-    id_job = models.IntegerField('ID вакансии')
-    short_link = models.URLField('Короткая ссылка на', max_length=100)
-    url_selection_of_candidates = models.URLField('URL выборки кандидатов')
-    count_of_candidates = models.IntegerField('Количество кандидатов')
-    prompt_text_letter = models.TextField('Текст приглашения в письме')
-    prompt_text_sms = models.TextField('Текст приглашения в СМС')
-    status = models.CharField(
-        max_length=2,
-        choices=STATUS_CHOICES,
-        default=ON_LOAD,
-    )
-    progress = models.IntegerField('Прогресс выполнения')
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    move = models.BooleanField(default=True)
-
-    def verbose_name(self):
-        return dict(self.STATUS_CHOICES)[self.status]

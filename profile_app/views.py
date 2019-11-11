@@ -6,8 +6,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.timezone import now
 from django.views.generic import DetailView, UpdateView, CreateView, ListView
+
+from kandidator_v2_0 import settings
 from profile_app.forms import EditForm
-from profile_app.models import BidModel, Account
+from profile_app.models import Account
 
 
 # Вынес пагинацию в отдельную функцию во избежание повторения кода
@@ -37,9 +39,16 @@ def create_bid(request, pk):
             account.save()
             send_mail(
                 '{}'.format(title),
-                'Пользователь с почтой {} создал заявку id {}'.format(request.user.username, account.pk),
-                '{}'.format(request.user.username),
-                ['to@example.com'],
+                'Пользователь с почтой {} создал заявку с id {}'.format(request.user.username, account.pk),
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+            send_mail(
+                '{}'.format(title),
+                'Вы создали заявку с id {}'.format(account.pk),
+                settings.EMAIL_HOST_USER,
+                [request.user.username],
                 fail_silently=False,
             )
             return HttpResponseRedirect(reverse('bids_list_work', kwargs={'pk': request.user.pk, 'page': 1}))
@@ -52,8 +61,8 @@ def create_bid(request, pk):
         return render(request, 'profile_app/create-form.html', content)
 
 
-# Реаоизация изменеия форм без ajax
 class EditBidView(UpdateView):
+    title = 'Изменение заявки'
     model = Account
     form_class = EditForm
     template_name = 'profile_app/includes/ajax_form.html'
@@ -66,6 +75,20 @@ class EditBidView(UpdateView):
         acc.created = data.created
         acc.move = True
         acc.save()
+        send_mail(
+            '{}'.format(self.title),
+            'Пользователь с почтой {} изменил заявку с id {}'.format(self.request.user.username, acc.pk),
+            settings.EMAIL_HOST_USER,
+            [settings.EMAIL_HOST_USER],
+            fail_silently=False,
+        )
+        send_mail(
+            '{}'.format(self.title),
+            'Вы изменил заявку с id {}'.format(acc.pk),
+            settings.EMAIL_HOST_USER,
+            [self.request.user.username],
+            fail_silently=False,
+        )
         return super(EditBidView, self).form_valid(form)
 
     def get_success_url(self):
@@ -114,9 +137,16 @@ def stop_work(request, pk):
     bids.save()
     send_mail(
         '{}'.format(text),
-        'Пользователь с почтой {} приостановил заявку id{}'.format(request.user, bids.pk),
-        '{}'.format(request.user.username),
-        ['to@example.com'],
+        'Пользователь с почтой {} приостановил заявку с id {}'.format(request.user.username, bids.pk),
+        settings.EMAIL_HOST_USER,
+        [settings.EMAIL_HOST_USER],
+        fail_silently=False,
+    )
+    send_mail(
+        '{}'.format(text),
+        'Вы приостановили заявку с id {}'.format(bids.pk),
+        settings.EMAIL_HOST_USER,
+        [request.user.username],
         fail_silently=False,
     )
     return redirect(url)
@@ -130,13 +160,20 @@ def play_work(request, pk):
     bids.status = "ON"
     bids.move = True
     bids.save()
-    # send_mail(
-    #     '{}'.format(text),
-    #     'Пользователь с почтой {} возобновил заявку id{}'.format(request.user, bids.pk),
-    #     '{}'.format(request.user.username),
-    #     ['to@example.com'],
-    #     fail_silently=False,
-    # )
+    send_mail(
+        '{}'.format(text),
+        'Пользователь с почтой {} возобновил заявку с id{}'.format(request.user.username, bids.pk),
+        settings.EMAIL_HOST_USER,
+        [settings.EMAIL_HOST_USER, request.user.username],
+        fail_silently=False,
+    )
+    send_mail(
+        '{}'.format(text),
+        'Вы возобновили заявку с id{}'.format(bids.pk),
+        settings.EMAIL_HOST_USER,
+        [request.user.username],
+        fail_silently=False,
+    )
     return redirect(url)
 
 # Ajax realisation

@@ -80,7 +80,7 @@
                                     </td>
                                     <td><span class="text-muted">{{ object.created }}</span>
                                     </td>
-                                    <td>???????????</td>
+                                    <td>{{ object.progress }}%</td>
                                     {% if object.status == 'AR' %}
                                         <td><span class="label gradient-6-text rounded"> Завершена </span></td>
                                     {% elif object.status == 'ON' %}
