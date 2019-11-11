@@ -1,0 +1,9 @@
+{% load static %}
+<div class="flex-column ml-5 my-3">
+    <a class="has-arrow mr-2" href="{% url 'staff_profile' 1 %}" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text ml-1">Список подборов</span>
+    </a>
+    <a class="has-arrow mr-2" href="{% url 'staff_user_list' 1 %}" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text ml-1">Список пользователей</span>
+    </a>
+</div>

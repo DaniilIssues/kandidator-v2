@@ -1,0 +1,12 @@
+{% load static %}
+<div class="flex-column ml-5 my-3">
+    <a class="has-arrow mr-2" href="{% url 'create' user.pk %}" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text ml-1">Создать новый подбор</span>
+    </a>
+    <a class="has-arrow mr-2" href="{% url 'bids_list_work' user.pk 1 %}" aria-expanded="false">
+        <i class="icon-globe menu-icon"></i><span class="nav-text ml-1">Подборы в работе</span>
+    </a>
+    <a class="has-arrow mr-2" href="{% url 'bids_list_archive' user.pk 1 %}" aria-expanded="false">
+        <i class="icon-settings menu-icon"></i><span class="nav-text ml-1">Архив подборов</span>
+    </a>
+</div>

@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Изменение заявки</title>
+    {#    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">#}
+    <link href="{% static 'second/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
+    <link href="{% static 'second/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+<!--**********************************
+    Header start
+***********************************-->
+<div class="header">
+    <div class="header-content clearfix">
+        <div class="header-right">
+            <ul class="clearfix">
+                <li class="icons dropdown">
+                    <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                        <span class="activity active"></span>
+                        <img src="{% static 'images/user/1.png' %}" height="40" width="40" alt="">
+                    </div>
+                    <div class="drop-down dropdown-profile   dropdown-menu">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                <li><a href="{% url 'logout' %}"><i class="icon-key"></i> <span>Выход</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body start
+***********************************-->
+{% include 'adminapp/includes/menu_staff.html' %}
+<div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-validation">
+                        <form class="form-valide" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                {{ form.name_vacancy.errors }}
+                                <label class="col-lg-4 col-form-label"> Название вакансии
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.name_vacancy }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.login_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> Логин на HH <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.login_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.password_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> Пароль на HH <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.password_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.url_selected_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> URL выборки
+                                    кандидатов <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.url_selected_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.id_vacancy_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> ID вакансии <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.id_vacancy_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.short_url_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> Короткая ссылка на
+                                    вакансию HH <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.short_url_hh }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.text_to_sms.errors }}
+                                <label class="col-lg-4 col-form-label"> Текст приглашения в
+                                    SMS <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.text_to_sms }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.text_to_email.errors }}
+                                <label class="col-lg-4 col-form-label"> Текст приглашения в
+                                    письме <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.text_to_email }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.text_to_email.errors }}
+                                <label class="col-lg-4 col-form-label"> Текст приглашения в
+                                    письме <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.progress }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.status.errors }}
+                                <label class="col-lg-4 col-form-label"> Статус заявки <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.status }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.user.errors }}
+                                <label class="col-lg-4 col-form-label"> Пользователь <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.user }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form.url_selected_hh.errors }}
+                                <label class="col-lg-4 col-form-label"> Url выборки <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    {{ form.url_selected_hh }}
+                                </div>
+                            </div>
+                            {#                                        <div class="form-group row">#}
+                            {#                                            <label class="col-lg-4 col-form-label"><a href="#">Terms &amp; Conditions</a>  <span class="text-danger">*</span>#}
+                            {#                                            </label>#}
+                            {#                                            <div class="col-lg-8">#}
+                            {#                                                <label class="css-control css-control-primary css-checkbox" for="val-terms">#}
+                            {#                                                    <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1"> <span class="css-control-indicator"></span> I agree to the terms</label>#}
+                            {#                                            </div>#}
+                            {#                                        </div>#}
+                            <div class="form-group row">
+                                <div class="col-lg-8 ml-auto">
+                                    <button type="submit" class="btn btn-primary"> Сохранить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="copyright">
+        <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
+        </p>
+    </div>
+</div>
+<script src="{% static 'second/plugins/common/common.min.js' %}"></script>
+<script src="{% static 'second/js/custom.min.js' %}"></script>
+<script src="{% static 'second/js/settings.js' %}"></script>
+<script src="{% static 'second/js/gleek.js' %}"></script>
+<script src="{% static 'second/js/styleSwitcher.js' %}"></script>
+<script src="{% static 'second/plugins/sweetalert/js/sweetalert.min.js' %}"></script>
+<script src="{% static 'second/plugins/sweetalert/js/sweetalert.init.js' %}"></script>
+<script src="{% static 'second/plugins/validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'second/plugins/validation/jquery.validate-init.js' %}"></script>
+
+</body>
+
+</html>
